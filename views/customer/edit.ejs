@@ -1,0 +1,102 @@
+<h1><%= customer.name %></h1>
+<hr>
+<div class="container-fluid">
+  <h3>Address: <%= customer.street_address %></h3>
+  <h4><%= customer.city + ', ' + customer.state + '  ' + customer.zip %></h4>
+  <h5><%= 'Email: ' + customer.email %></h5>
+  <h5><%= 'Cell: ' + customer.cellphone %></h5>
+  <h5><%= 'Home: ' + customer.home_phone %></h5>
+  <h5><%= 'Created: ' + customer.createdAt.toDateString() %></h5>
+  <h5><%= 'Updated: ' + customer.updatedAt.toDateString() %></h5>
+  <td>
+    <a class="btn btn-info" href="/customer/edit/<%= customer.id %>">Edit Customer Information</a>
+  </td>
+</div>
+
+<br><br>
+
+<!--Stock-->
+<div class="container-fluid">
+  <h3>Stock</h3>
+  <table class="table table-striped">
+    <tr>
+      <th class="span1">Symbol</th>
+      <th class="span2">Number of Shares</th>
+      <th class="span2">Current Price</th>
+      <th class="span3">Owned Value Change</th>
+      <th class="span2">Initial Price</th>
+      <th class="span1"></th>
+      <th class="span1"></th>
+    </tr>
+    <% _.each(customer.stocks, function(stock) { %>
+    <tr data-id="<%= stock.id %>" data-model="stock">
+      <td align="center"><%= stock.symbol %></td>
+      <td align="center"><%= stock.number_of_shares %></td>
+      <td align="center">$<%= stock.current_price %></td>
+      <td align="center">$<%= Math.round(stock.gain) %></td>
+      <td align="center">$<%= stock.price %></td>
+      <td>
+        <a class="btn btn-info" href="/stock/edit/<%= stock.id %>">Edit</a>
+      </td>
+      <td>
+        <a class="btn btn-danger" href="/stock/destroy/<%= stock.id %>">Delete</a>
+      </td>
+    </tr>
+    <% }); %>
+  </table>
+  <!--portfolio value under table (use stock.portVal from custController)-->
+  <h5>Portfolio Value: $<%= Math.round(customer.portVal) %></h5>
+  <form action="/stock/new" method="POST">
+    <input type="hidden" value="<%= customer.id %>" name="owner"/>
+    <input class="btn btn-success" type="submit" value="Add Stock"/>
+  </form>
+</div>
+
+<br><br>
+
+<!--Investment-->
+<div class="container-fluid">
+  <h3>Investments</h3>
+  <table class="table table-striped">
+    <tr>
+      <th>Category</th>
+      <th>Current Value</th>
+      <th>Change in Value</th>
+      <th>Initial Value</th>
+      <th class="span1"></th>
+      <th class="span1"></th>
+    </tr>
+    <% _.each(customer.investments, function(investment) { %>
+    <tr data-id="<%= investment.id %>" data-model="investment">
+      <% if(investment.rec_value == null) { investment.rec_value = investment.inv_value } %>
+      <td align="center"><%= investment.category %></td>
+      <td align="center">$<%= investment.rec_value %></td>
+      <td align="center">$<%= investment.rec_value - investment.inv_value %></td>
+      <td align="center">$<%= investment.inv_value %></td>
+      <td>
+        <a class="btn btn-info" href="/investment/edit/<%= investment.id %>">Edit</a>
+      </td>
+      <td>
+        <a class="btn btn-danger" href="/investment/destroy/<%= investment.id %>">Delete</a>
+      </td>
+    </tr>
+    <% }); %>
+  </table>
+  <td>
+    <a class="btn" href="/customer/summary/<%= customer.id %>">View Summary</a>
+  </td>
+
+  <form action="/investment/new" method="POST">
+    <input type="hidden" value="<%= customer.id %>" name="holder"/>
+    <input class="btn btn-success" type="submit" value="Add Investment"/>
+  </form>
+</div>
+
+<br>
+
+<tr>
+  <td>
+    <a class="btn btn-inverse" href="/customer/">All Customers</a>
+  </td>
+</tr>
+<!--button to navigate to all customers-->

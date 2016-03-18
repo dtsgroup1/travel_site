@@ -26,6 +26,7 @@ module.exports = {
       res.view({
         customer: customer });
     });
+  },
 
   index: function(req, res, next) {
     Customer.find(function foundCustomers (err, customers) {
