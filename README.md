@@ -9,3 +9,6 @@ The objective of this project is to create an "mashup" application of at least 4
 
 
 a [Sails](http://sailsjs.org) application
+
+
+and this stuff too
