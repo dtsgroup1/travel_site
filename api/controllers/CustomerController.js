@@ -15,7 +15,7 @@ module.exports = {
     Customer.create( req.params.all(), function customerCreated(err, customer) {
       if (err) return next(err);
 
-      res.redirect('/customer/show/' + customer.id);
+      res.redirect('/customer/index/');
     });
   },
 

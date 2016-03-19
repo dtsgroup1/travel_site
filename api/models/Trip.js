@@ -11,6 +11,11 @@ module.exports = {
 
   attributes: {
 
+    owner: {
+      model: 'customer',
+      required: true
+    },
+
     departureDate: {
       type: 'string'
     },
@@ -25,11 +30,6 @@ module.exports = {
 
     destination: {
       type: 'string'
-    },
-
-    owner: {
-      model: 'customer',
-      required: true
     }
 
   }
