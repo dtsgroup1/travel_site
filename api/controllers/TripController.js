@@ -6,20 +6,18 @@
  */
 
 module.exports = {
-  'new': function(req, res, next) {
-    Customer.findOne(req.param('owner'), function foundCustomer (err, customer) {
-      if (err) return next(err);
-      if (!customer) return next();
-
-      res.view({
-        customer: customer
-      });
-    });
+  'new': function(req, res) {
+    res.view();
   },
 
   create: function(req, res, next) {
     Trip.create(req.params.all(), function tripCreated(err, trip) {
       if (err) return next(err);
+
+      //API will go here?
+      //Need to parse trip.departureDate for our API (/year/mo/da)
+      var http = require('http');
+
 
       //this should show the one customer..
       res.redirect('/customer/show/' + trip.owner);

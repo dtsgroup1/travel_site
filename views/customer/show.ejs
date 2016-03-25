@@ -1,1 +1,27 @@
 <h1>Customer</h1>
+
+<h3>Trips</h3>
+<table class="table table-striped">
+  <tr>
+    <th>Date of Departure</th>
+    <th>Date of Return</th>
+    <th>Destination</th>
+    <th>Origin</th>
+    <th></th>
+    <th></th>
+  </tr>
+  <% _.each(customer.trips, function(trip) { %>
+  <tr data-id="<%= trip.id %>" data-model="trip">
+    <td align="center"><%= trip.departureDate %></td>
+    <td align="center"><%= trip.returnDate %></td>
+    <td align="center"><%= trip.destination %></td>
+    <td align="center"><%= trip.origin %></td>
+    <td>
+      <a class="btn btn-info" href="/trip/edit/<%= trip.id %>">Edit</a>
+    </td>
+    <td>
+      <a class="btn btn-danger" href="/trip/destroy/<%= trip.id %>">Delete</a>
+    </td>
+  </tr>
+  <% }); %>
+</table>
