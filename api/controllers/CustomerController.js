@@ -7,7 +7,7 @@
 
 module.exports = {
 
-'new:': function(req, res) {
+'new': function(req, res) {
   res.view();
 },
 
@@ -15,7 +15,7 @@ module.exports = {
     Customer.create( req.params.all(), function customerCreated(err, customer) {
       if (err) return next(err);
 
-      res.redirect('/customer/index/');
+      res.redirect('/customer/index/' + customer.id);
     });
   },
 
