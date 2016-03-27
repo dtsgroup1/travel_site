@@ -1,0 +1,10 @@
+<form action="/trip/update/<%= trip.id %>" method="POST" >
+  <h2>Edit a Trip</h2>
+
+  <h5> Departure Date: </h5><input value="<%= trip.departureDate %>"type="text" name="departure_date" ><br />
+  <h5>Date to Return:</h5><input value="<%= trip.returnDate %>"type="text" name="return_date"><br/>
+  <h5>Origin:</h5><input value="<%= trip.origin %>" type="text" name="trip_origin" ><br />
+  <h5>Destination:</h5><input value="<%= trip.destination %>" type="text" name="trip_destination" ><br />
+  <br>
+  <input type="submit" value="Submit" />
+</form>
