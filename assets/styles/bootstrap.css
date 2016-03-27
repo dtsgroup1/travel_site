@@ -226,8 +226,10 @@ body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
   line-height: 20px;
-  color: #333333;
-  background-color: #ffffff;
+  color: #0b7ba4;
+  background-color: rgb(240, 221, 13);
+  padding-right: 30px;
+  padding-left: 30px;
 }
 
 a {

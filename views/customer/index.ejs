@@ -1,1 +1,27 @@
-<h2>yo waddup</h2>
+<h2>All Customers</h2>
+
+
+<h3><u>All Customers</u></h3>
+<h5>Click "Customer Summary" next to the user to view the customer's travel experiences.</h5>
+<table border="2" rules="all" cellpadding="10">
+  <tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Budget Tier</th>
+  </tr>
+  <% _.each(customers, function(customer) { %>
+  <tr data-id="<%= customer.id %>" data-model="customer" >
+    <td align="center"><%= customer.id %></td>
+    <td align="center"><%= customer.name %></td>
+    <td align="center"><%= customer.email%></td>
+    <td align="center"><%= customer.tier%></td>
+
+    <td><a href="/customer/show/<%= customer.id %>">Customer Summary</a></td>
+    <td><a href="/customer/edit/<%= customer.id %>">Edit</a></td>
+    <td><a href="/customer/destroy/<%= customer.id %>">Delete</a></td>
+    <td><a style="color:orangered;" href="/customer/<%= customer.id %>">JSON View</a></td>
+  </tr>
+<% }) %>
+</table>
+  <div> <br> <p> <a href="customer/new"> Create New Customer </a></p> </div>
