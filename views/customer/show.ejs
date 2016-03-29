@@ -22,6 +22,7 @@
     <th>Destination</th>
     <th></th>
     <th></th>
+    <th></th>
   </tr>
   <% _.each(customer.trips, function(trip) { %>
   <tr data-id="<%= trip.id %>" data-model="trip">
@@ -34,6 +35,9 @@
     </td>
     <td>
       <a class="btn btn-danger" href="/trip/destroy/<%= trip.id %>">Delete</a>
+    </td>
+    <td>
+      <a class="btn btn-info" href="/tip/show/<%= trip.id %>">show trip</a>
     </td>
   </tr>
   <% }); %>

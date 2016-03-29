@@ -30,6 +30,22 @@ module.exports = {
 
     destination: {
       type: 'string'
+    },
+
+    flightNum: {
+      type: 'string'
+    },
+
+    hotel: {
+      type: 'string'
+    },
+
+    uberNum: {
+      type: 'string'
+    },
+
+    entertainment: {
+      type: 'string'
     }
 
   }

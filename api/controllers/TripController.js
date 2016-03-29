@@ -20,7 +20,18 @@ module.exports = {
 
 
       //this should show the one customer..
-      res.redirect('/customer/show/' + trip.owner);
+      res.redirect('/trip/flight/' + trip.id);
+    });
+  },
+
+  'flight': function(req, res) {
+    Trip.findOne(req.param('id')).populateAll().exec(function (err, trip) {
+      if (err) return next(err);
+      if (!trip) return next();
+
+      res.view({
+        trip: trip
+      });
     });
   },
 
