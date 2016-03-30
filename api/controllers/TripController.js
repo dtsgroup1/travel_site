@@ -14,12 +14,6 @@ module.exports = {
     Trip.create(req.params.all(), function tripCreated(err, trip) {
       if (err) return next(err);
 
-      //API will go here?
-      //Need to parse trip.departureDate for our API (/year/mo/da)
-      var http = require('http');
-
-
-      //this should show the one customer..
       res.redirect('/trip/flight/' + trip.id);
     });
   },
@@ -29,9 +23,62 @@ module.exports = {
       if (err) return next(err);
       if (!trip) return next();
 
-      res.view({
-        trip: trip
-      });
+      //API will go here?
+      //Need to parse trip.departureDate for our API (/year/mo/da)
+      var http = require('http');
+      trip.fNum = null;
+
+      //function pickFlight(date, date, fNum) {
+
+      //}
+
+      res.redirect('/trip/hotel/' + trip.id);
+    });
+  },
+
+  'hotel': function(req, res) {
+    Trip.findOne(req.param('id')).populateAll().exec(function (err, trip) {
+      if (err) return next(err);
+      if (!trip) return next();
+
+      //API will go here?
+      var http = require('http');
+      trip.reservation = null;
+
+
+
+      res.redirect('/trip/car/' + trip.id);
+    });
+  },
+
+  'car': function(req, res) {
+    Trip.findOne(req.param('id')).populateAll().exec(function (err, trip) {
+      if (err) return next(err);
+      if (!trip) return next();
+
+      //API will go here?
+      var http = require('http');
+      trip.ride = null;
+
+
+
+      res.redirect('/trip/fun/' + trip.id);
+    });
+  },
+
+  'fun': function(req, res) {
+    Trip.findOne(req.param('id')).populateAll().exec(function (err, trip) {
+      if (err) return next(err);
+      if (!trip) return next();
+
+      //API will go here?
+      var http = require('http');
+      trip.ride = null;
+
+
+
+      //Should return to the trip owner's show page
+      res.redirect('/customer/show/' + trip.owner);
     });
   },
 
