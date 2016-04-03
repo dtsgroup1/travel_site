@@ -26,7 +26,11 @@ module.exports = {
       //API will go here?
       //Need to parse trip.departureDate for our API (/year/mo/da)
       var http = require('http');
-      trip.fNum = null;
+      //Authorization = appID:
+      //Authorization = appKey:
+      //trip.fNum = null;
+
+      //https://api.flightstats.com/flex/flightstatus/rest/v2/json/route/status/PDX/HNL/dep/2016/04/03
 
       //function pickFlight(date, date, fNum) {
 
@@ -43,7 +47,7 @@ module.exports = {
 
       //API will go here?
       var http = require('http');
-      trip.reservation = null;
+      //trip.reservation = null;
 
 
 
@@ -58,7 +62,7 @@ module.exports = {
 
       //API will go here?
       var http = require('http');
-      trip.ride = null;
+      //trip.ride = null;
 
 
 
@@ -73,7 +77,7 @@ module.exports = {
 
       //API will go here?
       var http = require('http');
-      trip.ride = null;
+      //trip.fun = null;
 
 
 

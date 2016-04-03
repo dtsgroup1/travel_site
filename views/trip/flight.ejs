@@ -1,6 +1,8 @@
 <h2>Select a suggested flight:</h2>
 <form action="/trip/flight" method="POST" >
 
+  https://api.flightstats.com/flex/flightstatus/rest/v2/json/route/status/<%=trip.departure%>/<%=trip.destination%>/dep/<%=trip.year%>/<%=trip.month%>/<%=trip.day%>
+
   <input type="text" placeholder="Flight Number" name="flightNum" ><br />
 
   <h3>Continue to Hotel</h3>
