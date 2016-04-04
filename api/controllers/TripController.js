@@ -23,8 +23,6 @@ module.exports = {
       if (err) return next(err);
       if (!trip) return next();
 
-      //API will go here?
-      //Need to parse trip.departureDate for our API (/year/mo/da)
       var http = require('http');
       //Authorization = appID:
       //Authorization = appKey:
@@ -32,9 +30,16 @@ module.exports = {
 
       //https://api.flightstats.com/flex/flightstatus/rest/v2/json/route/status/PDX/HNL/dep/2016/04/03
 
-      //function pickFlight(date, date, fNum) {
+      /*function pick_flight(trip, callback) {
+        //Need to parse trip.departureDate for our API (/trip.year/trip.month/trip.day)
+        options = {
+          host: 'api.flightstats.com',
+          port: 80,
+          path: '/flex/flightstatus/rest/v2/json/route/status/'+trip.origin+'/'+trip.destination+'/dep/'+trip.year+'/'+trip.month+'/'+trip.day,
+          method: 'GET'
+        };
 
-      //}
+      get flightNum from callback*/
 
       res.redirect('/trip/hotel/' + trip.id);
     });
