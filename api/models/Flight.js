@@ -1,5 +1,5 @@
 /**
- * Trip.js
+ * Flight.js
  *
  * @description :: TODO: You might write a short summary of how this model works and what it represents here.
  * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
@@ -7,48 +7,30 @@
 
 module.exports = {
 
-  schema: true,
-
   attributes: {
 
     owner: {
-      model: 'customer',
+      model: 'trip',
       required: true
     },
 
-    flights: {
-      collection: 'flight',
-      via: 'owner'
-    },
-
-    entertainment: {
-      collection: 'fun',
-      via: 'owner'
-    },
-
-    hotels: {
-      collection: 'hotel',
-      via: 'owner'
-    },
-
-    rides: {
-      collection: 'ride',
-      via: 'owner'
-    },
-
-    departureDate: {
+    carrier: {
       type: 'string'
     },
 
-    returnDate: {
+    num: {
       type: 'string'
     },
 
-    origin: {
+    stops: {
       type: 'string'
     },
 
-    destination: {
+    departure: {
+      type: 'string'
+    },
+
+    arrival: {
       type: 'string'
     }
 
