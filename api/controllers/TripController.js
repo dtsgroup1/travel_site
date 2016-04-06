@@ -28,9 +28,9 @@ module.exports = {
       //Authorization = appKey:
       //trip.fNum = null;
 
-      //https://api.flightstats.com/flex/flightstatus/rest/v2/json/route/status/PDX/HNL/dep/2016/04/03
+      //curl -v  -X GET "https://api.flightstats.com/flex/flightstatus/rest/v2/json/flight/status/AA/100/dep/2016/04/05?appId=0efb0de0&appKey=+4cc49ed437eb48a4729722360e30ac41&utc=false&airport=OMA"
 
-      /*function pick_flight(trip, callback) {
+      function pick_flight(trip, callback) {
         //Need to parse trip.departureDate for our API (/trip.year/trip.month/trip.day)
         options = {
           host: 'api.flightstats.com',
@@ -39,7 +39,7 @@ module.exports = {
           method: 'GET'
         };
 
-      get flightNum from callback*/
+      get flightNum from callback
 
       res.redirect('/trip/hotel/' + trip.id);
     });
