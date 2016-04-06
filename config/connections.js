@@ -48,6 +48,15 @@ module.exports.connections = {
     database: 'travel_site'
   },
 
+  openshift_mysql: {
+    adapter: 'sails-mysql',
+    user: 'mashup',
+    password: 'thisismypassword',
+    database: 'group1mashup',
+    host: process.env.OPENSHIFT_MYSQL_DB_HOST,
+    port: process.env.OPENSHIFT_MYSQL_DB_PORT
+  },
+
   /***************************************************************************
   *                                                                          *
   * MongoDB is the leading NoSQL database.                                   *
