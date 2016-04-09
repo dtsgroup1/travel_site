@@ -13,9 +13,8 @@ module.exports = {
       if (!trip) return next();
 
       var http = require('http');
-      //Authorization = appID:
-      //Authorization = appKey:
-      //trip.fNum = null;
+      //appID: 0efb0de0
+      //appKey: 4cc49ed437eb48a4729722360e30ac41
 
       //flight by route, departing on given date
       //curl -v  -X GET "https://api.flightstats.com/flex/schedules/rest/v1/json/from/OMA/to/LAX/departing/2016/04/06?appId=0efb0de0&appKey=4cc49ed437eb48a4729722360e30ac41"
