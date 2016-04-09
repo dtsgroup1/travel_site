@@ -18,8 +18,6 @@ module.exports = {
     });
   },
 
-  'search': function(){},
-
   show: function (req, res, next) {
     Trip.findOne(req.param('id')).populateAll().exec(function (err, trip) {
       if (err) return next(err);

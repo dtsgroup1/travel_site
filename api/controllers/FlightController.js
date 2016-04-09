@@ -7,19 +7,27 @@
 
 module.exports = {
 
+  'search': function(){},
+
   'new': function(req, res) {
     Trip.findOne(req.param('id')).populateAll().exec(function (err, trip) {
       if (err) return next(err);
       if (!trip) return next();
 
       var http = require('http');
+      trip.year = null;
+      trip.month = null;
+      trip.day = null;
       //appID: 0efb0de0
       //appKey: 4cc49ed437eb48a4729722360e30ac41
+
+      //parse trip date
+      date_array
 
       //flight by route, departing on given date
       //curl -v  -X GET "https://api.flightstats.com/flex/schedules/rest/v1/json/from/OMA/to/LAX/departing/2016/04/06?appId=0efb0de0&appKey=4cc49ed437eb48a4729722360e30ac41"
 
-      /*function pick_flight(trip, callback) {
+      function pick_flight(trip, callback) {
        //Need to parse trip.departureDate for our API (/trip.year/trip.month/trip.day)
        options = {
        host: 'api.flightstats.com',
@@ -28,9 +36,6 @@ module.exports = {
        method: 'GET'
        };
 
-       get flightNum from callback*/
-
-      res.redirect('/trip/hotel/' + trip.id);
     });
   },
 
