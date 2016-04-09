@@ -1,6 +1,7 @@
 <h1>Customer</h1>
 
 <h1><%= customer.name %></h1>
+<h2>ID: <%=customer.id%></h2>
 <hr>
 <h3><u>Tier:</u></br> </h3>
 <h4><%= customer.tier %></h4>
@@ -37,7 +38,7 @@
       <a class="btn btn-danger" href="/trip/destroy/<%= trip.id %>">Delete</a>
     </td>
     <td>
-      <a class="btn btn-info" href="/tip/show/<%= trip.id %>">show trip</a>
+      <a class="btn btn-info" href="/trip/show/<%= trip.id %>">show trip</a>
     </td>
   </tr>
   <% }); %>
