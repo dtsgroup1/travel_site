@@ -1,0 +1,41 @@
+<h1>Hotel</h1>
+
+
+
+<h3>Hotel Information</h3>
+<table class="table table-striped">
+  <tr>
+    <th>Check In Date</th>
+    <th>Check Out Date</th>
+    <th>Origin</th>
+    <th>Destination</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+  <% _.each(customer.trips, function(trip) { %>
+  <tr data-id="<%= trip.id %>" data-model="trip">
+    <td align="center"><%= trip.departureDate %></td>
+    <td align="center"><%= trip.returnDate %></td>
+    <td align="center"><%= trip.origin %></td>
+    <td align="center"><%= trip.destination %></td>
+    <td>
+      <a class="btn btn-info" href="/trip/edit/<%= trip.id %>">Edit</a>
+    </td>
+    <td>
+      <a class="btn btn-danger" href="/trip/destroy/<%= trip.id %>">Delete</a>
+    </td>
+    <td>
+      <a class="btn btn-info" href="/trip/show/<%= trip.id %>">show trip</a>
+    </td>
+  </tr>
+  <% }); %>
+</table>
+
+<form action="/trip/new" method="POST">
+  <input type="hidden" value="<%= customer.id %>" name="owner" />
+  <input type="hidden" value="<%= customer.name %>" name="name" />
+  <input type="submit" value="Add Trip" />
+</form>
+
+<a class="btn btn-info" href="/customer/">All Customers</a>
