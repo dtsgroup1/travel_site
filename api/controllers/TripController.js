@@ -14,7 +14,7 @@ module.exports = {
     Trip.create(req.params.all(), function tripCreated(err, trip) {
       if (err) return next(err);
 
-      res.redirect('/trip/flight/' + trip.id);
+      res.redirect('/trip/show/' + trip.id);
     });
   },
 

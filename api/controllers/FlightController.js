@@ -7,9 +7,17 @@
 
 module.exports = {
 
-  'search': function(){},
-
   'new': function(req, res) {
+    Trip.findOne(req.param('owner'), function foundTrip (err, customer) {
+      if (err) return next(err);
+      if (!customer) return next();
+      res.view({
+        trip: trip
+      });
+    });
+  },
+
+  'search': function(req, res, next) {
     Trip.findOne(req.param('id')).populateAll().exec(function (err, trip) {
       if (err) return next(err);
       if (!trip) return next();
@@ -56,6 +64,8 @@ module.exports = {
           process_response(response, trip, callback)
         });
         webservice_request.end();
+
+        console.log(pick_flight);
 
       };
 

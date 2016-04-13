@@ -7,12 +7,7 @@
 
 
 
-show: function (req, res, next) {
-  Customer.findOne(req.param('id')).populateAll().exec(function (err, customer) {
-    if (err) return next(err);
-    if (!customer) return next();
 
-    hotel.price = 0;
 
 
 module.exports = {
@@ -55,7 +50,7 @@ module.exports = {
         options = {
           host: 'api.hotwire.com',
           port: 80,
-          path: '/v1/deal/hotel' + trip.destination;
+          path: '/v1/deal/hotel' + trip.destination,
           method: 'GET'
         };
 
@@ -64,11 +59,7 @@ module.exports = {
           process_response(response, hotel, callback)
         });
         webservice_request.end();
-
-
-
       }
-
 
       async.each(customer.stocks, get_current_price, function(err){
         if(err) console.log(err);
@@ -80,7 +71,15 @@ module.exports = {
       });
 
     });
-  }
+  },
+
+/*  show: function (req, res, next) {
+    Customer.findOne(req.param('id')).populateAll().exec(function (err, customer) {
+      if (err) return next(err);
+      if (!customer) return next();
+
+      hotel.price = 0;
+    }*/
 };
 
 // res.redirect('/trip/car/' + trip.id);
