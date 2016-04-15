@@ -7,8 +7,8 @@
 
 module.exports = {
 
-  'new': function(req, res) {
-    Trip.findOne(req.param('owner'), function foundTrip (err, customer) {
+  'new': function (req, res) {
+    Trip.findOne(req.param('owner'), function foundTrip(err, customer) {
       if (err) return next(err);
       if (!customer) return next();
       res.view({
@@ -17,12 +17,21 @@ module.exports = {
     });
   },
 
-  'search': function(req, res, next) {
+  create: function (req, res, next) {
+    Flight.create(req.params.all(), function stockCreated(err, flight) {
+      if (err) return next(err);
+
+      res.redirect('/trip/show/' + flight.owner);
+    });
+  },
+
+  'search': function (req, res, next) {
     Trip.findOne(req.param('id')).populateAll().exec(function (err, trip) {
       if (err) return next(err);
       if (!trip) return next();
 
-      var http = require('http');
+      var flight_data;
+      var https = require('https');
       trip.year = null;
       trip.month = null;
       trip.day = null;
@@ -37,16 +46,19 @@ module.exports = {
 
       function process_response(webservice_response, trip, callback) {
         var webservice_data = "";
-        webservice_response.on('error', function(e) {
-          console.log(e.message);
+        webservice_response.on('error', function (e) {
+          console.log(e.message, 'im heeer');
           callback('Error: ' + e.message);
         });
-        webservice_response.on('data', function(chunk) {
+        webservice_response.on('data', function (chunk) {
+          console.log(e.message, '52');
           webservice_data += chunk;
         });
 
-        webservice_response.on('end', function() {
+        webservice_response.on('end', function () {
+          console.log(webservice_data);
           flight_data = JSON.parse(webservice_data);
+          console.log(flight_data);
           callback();
         });
       };
@@ -54,23 +66,51 @@ module.exports = {
       function pick_flight(trip, callback) {
         options = {
           host: 'api.flightstats.com',
-          port: 80,
-          path: '/flex/flightstatus/rest/v2/json/route/status/' + trip.origin + '/' + trip.destination + '/dep/' + date_array[3] + '/' + date_array[1] + '/' + date_array[2],
+          path: '/flex/schedules/rest/v1/json/from/' + trip.origin + '/to/' + trip.destination + '/departing/' + date_array[2] + '/' + date_array[0] + '/' + date_array[1]+'?appId=0efb0de0&appKey=4cc49ed437eb48a4729722360e30ac41',
           method: 'GET'
         };
+        console.log(options);
 
-        // This is asynchronous - won't guarantee we get the response before we use it
-        var webservice_request = http.request(options, function(response) {
-          process_response(response, trip, callback)
+        var webservice_request = https.request(options, function (webservice_response) {
+          var webservice_data = "";
+          console.log(webservice_response.statusCode);
+
+          webservice_response.on('data', function (chunk) {
+            webservice_data += chunk;
+          });
+
+          webservice_response.on('end', function () {
+            console.log(webservice_data);
+            flight_data = JSON.parse(webservice_data);
+            console.log(flight_data);
+            callback();
+          });
         });
+
+        webservice_request.on('error', function (e) {
+          console.log(e.message, 'im heeer');
+          callback('Error: ' + e.message);
+        });
+
         webservice_request.end();
-
-        console.log(pick_flight);
-
       };
 
+ /*     async.each(trip.flights, pick_flight, function (err) {
+        if (err) console.log(err);
+        console.log('done');
+      });
+*/
+
+      pick_flight(trip, function (err) {
+        if (err) console.log(err);
+        console.log('fish');
+      });
+
+      res.view({
+        flight: flight_data,
+        trip: trip
+      });
     });
   },
-
 };
 
