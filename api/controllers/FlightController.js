@@ -56,9 +56,7 @@ module.exports = {
         });
 
         webservice_response.on('end', function () {
-          console.log(webservice_data);
           flight_data = JSON.parse(webservice_data);
-          console.log(flight_data);
           callback();
         });
       };
@@ -80,9 +78,7 @@ module.exports = {
           });
 
           webservice_response.on('end', function () {
-            console.log(webservice_data);
-            flight_data = JSON.parse(webservice_data);
-            console.log(flight_data);
+            var flight_data = JSON.parse(webservice_data);
             callback();
           });
         });
@@ -102,10 +98,9 @@ module.exports = {
 */
 
       pick_flight(trip, function (err) {
-        if (err) console.log(err);
-        console.log('fish');
       });
 
+      console.log(flight_data);
       res.view({
         flight: flight_data,
         trip: trip

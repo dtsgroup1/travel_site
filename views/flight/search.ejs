@@ -1,7 +1,32 @@
 <!--Give each row its own form (POST method)-->
 <h1>Yo, choose a flight!</h1>
 
-<!--cycles through each flight object in "scheduledFlights" array-->
-<%// _.each(flight.scheduledFlights, function(particularFlight) { %>
-  <!--table with form rows-->
+<div class="container-fluid">
+  <h3>Investments</h3>
+  <table class="table table-striped">
+    <tr>
+      <th>Flight Number</th>
+      <th>Carrier</th>
+      <th>Change in Value</th>
+    </tr>
+    <!--cycles through each flight object in "scheduledFlights" array-->
+    <% _.each(flight.scheduledFlights, function(particularFlight) { %>
+    <!--table with form rows-->
     <!--e.g. particularFlight.flightNumber-->
+    <tr data-id="<%= investment.id %>" data-model="investment">
+      <% if (investment.rec_value == null) {
+        investment.rec_value = investment.inv_value
+      } %>
+      <td align="center"><%= particularFlight.flightNumber %></td>
+      <td align="center">$<%= particularFlight.carrierFsCode %></td>
+      <td align="center">$<%= particularFlight.arrivalTime %></td>
+      <!--<td>
+        <a class="btn btn-info" href="/investment/edit/<%= investment.id %>">Edit</a>
+      </td>
+      <td>
+        <a class="btn btn-danger" href="/investment/destroy/<%= investment.id %>">Delete</a>
+      </td>-->
+    </tr>
+    <% }); %>
+  </table>
+</div>
