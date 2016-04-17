@@ -7,15 +7,15 @@
 
 
 
-
+/*
 
 
 module.exports = {
 
-  'new': function(req, res) {
+   'new': function(req, res) {
     Trip.findOne(req.param('id')).populateAll().exec(function (err, trip) {
       if (err) return next(err);
-      if (!trip) return next();
+      if (!trip) return next(); */
 
       //API will go here?
       // var http = require('http');
@@ -24,62 +24,42 @@ module.exports = {
       //http://api.hotwire.com/v1/search/hotel?apikey=abc123&dest=San%20Francisco,%20Ca.&rooms=1&adults=2&children=0&startdate=01/20/2014&enddate=01/23/2014
 
 
-      var http = require('http');
+      // Docs: http://app-framework-software.intel.com/api2/index.html#$_get
+      // API Help Source: https://github.com/gomobile/sample-masheryhotwire/blob/master/www/js/api.js
 
-      function process_response(webservice_response, hotel, callback) {
-        var webservice_data = "";
-        webservice_response.on('error', function(e) {
-          console.log(e.message);
-          callback("Error: " + e.message);
-        });
-        webservice_response.on('data', function(chunk) {
-          webservice_data += chunk;
-        });
+      // var apiKey = 'qba8knkmf9ahgzbm6rmy988g';
+      // var invalidKey = false;
 
-        webservice_response.on('end', function() {
-          hotel_data = JSON.parse(webservice_data);
-          hotel.price = hotel_data.LastPrice;
+      /*****************************************/
 
-          callback();
-        });
-      };
 
-      function get_current_price(hotel, callback) {
-        //http://dev.markitondemand.com/MODApis/Api/v2/Quote/JSON?symbol=AAPL
-        //console.log(stock.symbol);
-        options = {
-          host: 'api.hotwire.com',
-          port: 80,
-          path: '/v1/deal/hotel' + trip.destination,
-          method: 'GET'
-        };
 
-        // This is asynchronous - won't guarantee we get the response before we use it
-        var webservice_request = http.request(options, function(response) {
-          process_response(response, hotel, callback)
-        });
-        webservice_request.end();
-      }
+var Hotwire = require('hotwire');
 
-      async.each(customer.stocks, get_current_price, function(err){
-        if(err) console.log(err);
-        //console.log('done');
+                            //api key
+var hotwire = new Hotwire('qba8knkmf9ahgzbm6rmy988g');
+hotwire.hotelDeals({format: 'json', startdate: '04/28/2016', dest: 'Omaha', limit: '1'}, function (err, response, body) {
+  if (err) {
+    console.log(err);
+  }
+  console.log(response.statusCode);
+  console.log(body);})
 
-        res.view({
-          hotel: hotel
-        });
-      });
 
-    });
-  },
+   /* function process_response(webservice_response, hotel, callback) {
+    var webservice_data = "";
+    webservice_response.on('error', function (e) {
+      console.log(e.message);
+      callback("Error: " + e.message);
+    }),
 
-/*  show: function (req, res, next) {
-    Customer.findOne(req.param('id')).populateAll().exec(function (err, customer) {
-      if (err) return next(err);
-      if (!customer) return next();
+      webservice_response.on('end', function () {
+        hotel_data = JSON.parse(webservice_data);
+        hotel.price = hotel_data.Price;
 
-      hotel.price = 0;
-    }*/
-};
+        callback();
+      })
 
-// res.redirect('/trip/car/' + trip.id);
+
+}; **/
+
