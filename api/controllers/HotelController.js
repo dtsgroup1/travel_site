@@ -7,59 +7,73 @@
 
 
 
-/*
+
 
 
 module.exports = {
 
-   'new': function(req, res) {
-    Trip.findOne(req.param('id')).populateAll().exec(function (err, trip) {
+  'new': function (req, res) {
+    Trip.findOne(req.param('owner'), function foundTrip(err, customer) {
       if (err) return next(err);
-      if (!trip) return next(); */
+      if (!customer) return next();
+      res.view({
+        trip: trip
+      });
+    });
+  },
 
-      //API will go here?
-      // var http = require('http');
-      //trip.reservation = null;
+  //API will go here?
+  // var http = require('http');
+  //trip.reservation = null;
 
-      //http://api.hotwire.com/v1/search/hotel?apikey=abc123&dest=San%20Francisco,%20Ca.&rooms=1&adults=2&children=0&startdate=01/20/2014&enddate=01/23/2014
+  //http://api.hotwire.com/v1/search/hotel?apikey=abc123&dest=San%20Francisco,%20Ca.&rooms=1&adults=2&children=0&startdate=04/20/2016&enddate=04/23/2016
 
+  // Docs: http://app-framework-software.intel.com/api2/index.html#$_get
+  // API Help Source: https://github.com/gomobile/sample-masheryhotwire/blob/master/www/js/api.js
 
-      // Docs: http://app-framework-software.intel.com/api2/index.html#$_get
-      // API Help Source: https://github.com/gomobile/sample-masheryhotwire/blob/master/www/js/api.js
+  // var apiKey = 'qba8knkmf9ahgzbm6rmy988g';
+  // var invalidKey = false;
 
-      // var apiKey = 'qba8knkmf9ahgzbm6rmy988g';
-      // var invalidKey = false;
+  /*****************************************/
 
-      /*****************************************/
+  'search': function (req, res, next) {
+    Trip.findOne(req.param('id')).populateAll().exec(function (err, trip) {
+      var Hotwire = require('hotwire');
 
+      //api key
+      var hotwire = new Hotwire('qba8knkmf9ahgzbm6rmy988g');
 
+      hotwire.hotelDeals({
+        format: 'json',
+        startdate: '04/28/2016',
+        dest: 'Omaha',
+        limit: '1'
+      }, function (err, response, body) {
+        if (err) {
+          console.log(err);
+        }
+        console.log(response.statusCode);
+        console.log(body);
+      });
 
-var Hotwire = require('hotwire');
+      function process_response(webservice_response, hotel, callback) {
+        var webservice_data = "";
+        webservice_response.on('error', function (e) {
+          console.log(e.message);
+          callback("Error: " + e.message);
+        });
 
-                            //api key
-var hotwire = new Hotwire('qba8knkmf9ahgzbm6rmy988g');
-hotwire.hotelDeals({format: 'json', startdate: '04/28/2016', dest: 'Omaha', limit: '1'}, function (err, response, body) {
-  if (err) {
-    console.log(err);
+        webservice_response.on('end', function () {
+          hotel_data = JSON.parse(webservice_data);
+          hotel.price = hotel_data.Price;
+
+          callback();
+        });
+      }
+
+    });
   }
-  console.log(response.statusCode);
-  console.log(body);})
 
+};
 
-   /* function process_response(webservice_response, hotel, callback) {
-    var webservice_data = "";
-    webservice_response.on('error', function (e) {
-      console.log(e.message);
-      callback("Error: " + e.message);
-    }),
-
-      webservice_response.on('end', function () {
-        hotel_data = JSON.parse(webservice_data);
-        hotel.price = hotel_data.Price;
-
-        callback();
-      })
-
-
-}; **/
 

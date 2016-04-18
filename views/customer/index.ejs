@@ -8,14 +8,12 @@
     <th>ID</th>
     <th>Name</th>
     <th>Email</th>
-    <th>Budget Tier</th>
   </tr>
   <% _.each(customers, function(customer) { %>
   <tr data-id="<%= customer.id %>" data-model="customer" >
     <td align="center"><%= customer.id %></td>
     <td align="center"><%= customer.name %></td>
     <td align="center"><%= customer.email%></td>
-    <td align="center"><%= customer.tier%></td>
 
     <td><a href="/customer/show/<%= customer.id %>">Customer Summary</a></td>
     <td><a href="/customer/edit/<%= customer.id %>">Edit</a></td>
