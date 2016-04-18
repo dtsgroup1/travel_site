@@ -22,8 +22,7 @@ module.exports = {
     },
 
     tier: {
-      type: 'float',
-      required: true
+      type: 'float'
     },
 
     trips: {
