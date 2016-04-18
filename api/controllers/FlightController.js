@@ -85,7 +85,7 @@ module.exports = {
         console.log('async is done');
 
         //test API
-        //console.log('fData2:',flight_data.scheduledFlights[0].flightNumber);
+        console.log('fData2:',flight_data.scheduledFlights[0]);
 
         res.view({
           trip: trip,
