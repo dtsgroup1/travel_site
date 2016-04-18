@@ -15,8 +15,6 @@
  end_latitude = 41.2875140,
  end_longitude = -96.1502320;
 
-
-
  Uber.getProducts(start_latitude, start_longitude,end_latitude, end_longitude, function(error, response) {
   if (error) {
     console.log(error);
@@ -24,14 +22,11 @@
     console.log(response);
   }
 });
-
  Uber.getPriceEstimate(start_latitude, start_longitude, end_latitude, end_longitude[callback]).then(function(response){
   console.log(response);
 }, function(error){
   console.error(response);
 });
-
-
  /** Uber.getProducts(lat, lon, function(error, response) {
   if (error) {
     console.log(error);
@@ -39,7 +34,6 @@
     console.log(response);
   }
 });
-
  Uber.getProducts(lat, lon).then(function(response){
   console.log(response);
 }, function(error){
@@ -64,12 +58,11 @@ module.exports = {
       var uberLib = require('uber-api');
       var http = require('http');
 
-        token = 'kuhOpgaA1JkBbjFyJ7iaweUbCUVYZOrPlMFdMl8H',
+      token = 'kuhOpgaA1JkBbjFyJ7iaweUbCUVYZOrPlMFdMl8H',
         Uber = new uberLib(token, 'v1'),
-
-      //Lat and longitude will carry over from Hotel API
-        lat = 36,
-        lon = -94;
+        //Lat and longitude will carry over from Hotel API
+        lat = hotel.price;
+        lon = hotel.refNum;
 
       Uber.getProducts(lat, lon, function (error, response) {
         if (error) {

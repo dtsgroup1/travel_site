@@ -1,2 +1,29 @@
 <!--Give each row its own form (POST method)-->
 <h1>Yo, choose a fun!</h1>
+<h4><%= trip.id %></h4>
+<form action="/flight/create" method="POST">
+  <div class="container-fluid">
+    <table class="table table-striped">
+      <tr>
+        <th>Flight Number</th>
+        <th>Carrier</th>
+        <th>Arrival Time</th>
+        <th></th>
+        <th></th>
+      </tr>
+      <!--cycles through each flight object in "scheduledFlights" array-->
+      <% _.each(flight.scheduledFlights, function(particularFlight) { %>
+      <!--e.g. particularFlight.flightNumber-->
+      <!--Give each row its own form (POST method)-->
+      <tr>
+        <td><input type="text" placeholder="<%= particularFlight.flightNumber %>" name="num"></td>
+        <td><input type="text" placeholder="<%= particularFlight.carrierFsCode %>" name="carrier"></td>
+        <td><input type="text" placeholder="<%= particularFlight.arrivalTime %>" name="arrival"><td>
+        <td><input type="text" placeholder="<%= trip.id %>" name="owner"></td>
+        <td><input class="btn btn-success" type="submit" value="Select"/></td>
+      </tr>
+      <% }); %>
+    </table>
+  </div>
+</form>
+

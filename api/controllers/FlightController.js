@@ -21,6 +21,8 @@ module.exports = {
     Flight.create(req.params.all(), function stockCreated(err, flight) {
       if (err) return next(err);
 
+      console.log('carrier:',flight.carrier);
+
       res.redirect('/trip/show/' + flight.owner);
     });
   },

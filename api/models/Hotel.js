@@ -14,10 +14,12 @@ module.exports = {
       required: true
     },
 
+    //currently used for Latitude
     price: {
       type: 'float'
     },
 
+    //currently used for Longitude
     refNum: {
       type: 'string'
     },

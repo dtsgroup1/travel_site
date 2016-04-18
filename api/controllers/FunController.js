@@ -12,7 +12,6 @@ module.exports = {
       if (err) return next(err);
       if (!trip) return next();
 
-      //API will go here?
       var http = require('http');
       //trip.fun = null;
 
