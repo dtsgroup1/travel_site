@@ -1,0 +1,26 @@
+
+
+<table>
+
+  <tr>
+    <th>Price</th>
+    <th>Hotel City</th>
+    <th> Neighborhood </th>
+    <th>Start Date</th>
+    <th>End Date</th>
+    <th>Star Rating</th>
+
+
+  </tr>
+  <% _.each(hotels, function(hotel) { %>
+  <tr>
+    <td><%= hotel.Price %></td>
+    <td><%= hotel.City %></td>
+    <td><%= hotel.Neighborhood %> </td>
+    <td><%= hotel.StartDate %></td>
+    <td><%= hotel.EndDate %> </td>
+    <td> <%= hotel.StarRating %></td>
+  </tr>
+
+<% }); %>
+</table>
