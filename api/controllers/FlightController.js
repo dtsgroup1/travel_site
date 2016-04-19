@@ -78,14 +78,14 @@ module.exports = {
         webservice_request.end();
       }
 
-      //What array do we need for the first argument here???
+      //cycler array is used to tell async to cycle through array of 1 value, that is the current trip
       var cycler = [trip]
       async.each(cycler, pick_flight, function (err) {
         if (err) console.log(err);
         console.log('async is done');
 
-        //test API
-        console.log('fData2:',flight_data.scheduledFlights[0]);
+        //test API. prints out first flight object
+        //console.log('fData2:',flight_data.scheduledFlights[0]);
 
         res.view({
           trip: trip,
