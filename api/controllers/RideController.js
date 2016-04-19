@@ -9,13 +9,6 @@
 // curl -H 'Authorization: Token 'kuhOpgaA1JkBbjFyJ7iaweUbCUVYZOrPlMFdMl8H' \'https://api.uber.com/v1/products?latitude=37.7759792&longitude=-122.41823'
 // npm install uber-api
 
-
-/*
-
-
- */
-
-
 //var Uber = require('node-uber');
 
 /* var Uber = require('uber-api')({server_token: 'kuhOpgaA1JkBbjFyJ7iaweUbCUVYZOrPlMFdMl8H', version: 'v1'}),
@@ -36,7 +29,6 @@ Uber.getProducts(lat, lon, function (error, response) {
     console.log(body);
   }
 })
-
 
 /** var Uber = require('uber-api')({server_token:'kuhOpgaA1JkBbjFyJ7iaweUbCUVYZOrPlMFdMl8H',version:'v1'}),
  start_latitude = 41.3096180,

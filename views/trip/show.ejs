@@ -1,7 +1,15 @@
 <%= trip.owner.name %>
 <br><br>
-<td><a class="btn btn-success" href="/flight/search/<%= trip.id %>">Flights</a></td>
-<td><a class="btn btn-success" href="/hotel/show/<%= trip.id %>">Hotels</a></td>
-<td><a class="btn btn-success" href="/ride/search/<%= trip.id %>">Rides</a></td>
+<h2>Please select each part of your trip in order.</h2>
+<br><br>
+<h3>Select a:</h3>
+<td><a class="btn btn-success" href="/flight/search/<%= trip.id %>">Flight</a></td>
+<h3>..then a:</h3>
+<td><a class="btn btn-success" href="/hotel/show/<%= trip.id %>">Hotel</a></td>
+<h3>..and a:</h3>
+<td><a class="btn btn-success" href="/ride/search/<%= trip.id %>">Ride</a></td>
+<h3>..and of course some:</h3>
 <td><a class="btn btn-success" href="/fun/search/<%= trip.id %>">Entertainment</a></td>
 
+<br><br>
+<a class="btn btn-info" href="/customer/show/<%= trip.owner.id %>">Return to Customer</a>

@@ -49,7 +49,6 @@ module.exports = {
         var hotels = JSON.parse(body).Result;
         console.log(hotels[0]);
 
-
         res.view({
           trip: trip,
           hotels: hotels
