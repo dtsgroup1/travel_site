@@ -18,7 +18,7 @@ module.exports = {
   },
 
   create: function (req, res, next) {
-    Flight.create(req.params.all(), function stockCreated(err, flight) {
+    Flight.create(req.params.all(), function flightCreated(err, flight) {
       if (err) return next(err);
 
       console.log('carrier:',flight.carrier);

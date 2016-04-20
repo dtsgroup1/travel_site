@@ -10,8 +10,10 @@
 module.exports = {
 
   create: function (req, res, next) {
-    Flight.create(req.params.all(), function stockCreated(err, hotel) {
+    Hotel.create(req.params.all(), function stockCreated(err, hotel) {
       if (err) return next(err);
+
+      console.log('deal:',hotel.deal);
 
       res.redirect('/trip/show/' + hotel.owner);
     });

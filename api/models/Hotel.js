@@ -16,7 +16,7 @@ module.exports = {
 
     //currently used for Latitude
     price: {
-      type: 'float'
+      type: 'string'
     },
 
     //currently used for Longitude
@@ -25,12 +25,12 @@ module.exports = {
     },
 
     numRooms: {
-      type: 'number'
+      type: 'string'
     },
 
     //hotwire savings in percent
     deal: {
-      type: 'float'
+      type: 'string'
     }
 
   }
