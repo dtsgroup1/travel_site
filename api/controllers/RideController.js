@@ -1,109 +1,169 @@
-/**
- * RideController
- *
- * @description :: Server-side logic for managing rides
- * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
- */
-
-
-// curl -H 'Authorization: Token 'kuhOpgaA1JkBbjFyJ7iaweUbCUVYZOrPlMFdMl8H' \'https://api.uber.com/v1/products?latitude=37.7759792&longitude=-122.41823'
-// npm install uber-api
-
-
-/*
-
-
- */
-
-
-//var Uber = require('node-uber');
-
-/* var Uber = require('uber-api')({server_token: 'kuhOpgaA1JkBbjFyJ7iaweUbCUVYZOrPlMFdMl8H', version: 'v1'}),
-  lat = 36,
-  lon = -94;
-//var token = 'kuhOpgaA1JkBbjFyJ7iaweUbCUVYZOrPlMFdMl8H';
-//Uber = new uberLib(token, 'v1');
-
-//Lat and longitude will carry over  to Hotel API
-//var lat = 36;
-//var lon = -94;
-
-Uber.getProducts(lat, lon, function (error, response) {
-  if (error) {
-    console.log(error);
-  } else {
-    console.log(response);
-    console.log(body);
-  }
-})
-
-
-/** var Uber = require('uber-api')({server_token:'kuhOpgaA1JkBbjFyJ7iaweUbCUVYZOrPlMFdMl8H',version:'v1'}),
- start_latitude = 41.3096180,
- start_longitude = -96.1500320,
- end_latitude = 41.2875140,
- end_longitude = -96.1502320;
-
- Uber.getProducts(start_latitude, start_longitude,end_latitude, end_longitude, function(error, response) {
-  if (error) {
-    console.log(error);
-  } else {
-    console.log(response);
-  }
-});
- Uber.getPriceEstimate(start_latitude, start_longitude, end_latitude, end_longitude[callback]).then(function(response){
-  console.log(response);
-}, function(error){
-  console.error(response);
-});
- /** Uber.getProducts(lat, lon, function(error, response) {
-  if (error) {
-    console.log(error);
-  } else {
-    console.log(response);
-  }
-});
- Uber.getProducts(lat, lon).then(function(response){
-  console.log(response);
-}, function(error){
-  console.error(response);
-});
-
-
- module.exports = {
-
-  'new': function (req, res) {
-    Trip.findOne(req.param('owner'), function foundTrip(err, trip) {
-      if (err) return next(err);
-      if (!trip) return next();
-      res.view({
-        trip: trip
-      });
-    });
+module.exports = {
+  friendlyName: 'Get price estimate',
+  description: 'A price estimate for each product offered.',
+  extendedDescription: '',
+  inputs: {
+    apiKey: {
+      example: 'kuhOpgaA1JkBbjFyJ7iaweUbCUVYZOrPlMFdMl8H',
+      description: 'The private Uber API key for this application.',
+      required: true,
+      whereToGet: {
+        url: 'https://developer.uber.com/apps/',
+        description: 'Copy and paste an API key, or create one if you haven\'t already.',
+        extendedDescription: ''
+      }
+    },
+    startLatitude: {
+      example: 37.623908,
+      description: 'Latitude component of start location.',
+      required: true
+    },
+    startLongitude: {
+      example: -122.381592,
+      description: 'Longitude component of start location.',
+      required: true
+    },
+    endLatitude: {
+      example: 37.623908,
+      description: 'Latitude component of end location.',
+      required: true
+    },
+    endLongitude: {
+      example: -122.401213,
+      description: 'Longitude component of end location.',
+      required: true
+    }
   },
+  defaultExit: 'success',
+  exits: {
+    error: {
+      description: 'Unexpected error occurred.'
+    },
+    rateLimitExceeded: {
+      description: 'The rate limit has been exceeded.'
+    },
+    tooFar: {
+      description: 'Distance between two points exceeds 100 miles.'
+    },
+    invalidApiKey: {
+      description: 'Invalid api key.'
+    },
+    noPriceAvail: {
+      description: 'There is no available price for this location.'
+    },
+    success: {
+      description: 'Returns an estimated price range for each product offered at a given location.',
+      example: [{
+        productId: '08f17084-23fd-4103-aa3e-9b660223934b',
+        currencyCode: 'USD',
+        displayName: 'UberBLACK',
+        estimate: '$23-29',
+        lowEstimate: 23,
+        highEstimate: 29,
+        surgeMultiplier: 1,
+        duration: 640,
+        distance: 5.34
+      }]
+    }
+  },
+  show: function(inputs, exits) {
 
-  'search': function (req, res, next) {
-    Trip.findOne(req.param('id')).populateAll().exec(function (err, trip) {
-      var uberLib = require('uber-api');
-      var http = require('http');
+    var util = require('util');
+    var _ = require('lodash');
+    var Http = require('machinepack-http');
 
-      token = 'kuhOpgaA1JkBbjFyJ7iaweUbCUVYZOrPlMFdMl8H',
-        Uber = new uberLib(token, 'v1'),
-        //Lat and longitude will carry over from Hotel API
-        lat = hotel.price;
-        lon = hotel.refNum;
 
-      Uber.getProducts(lat, lon, function (error, response) {
-        if (error) {
-          console.log(error);
-        } else {
-          console.log(response);
-          console.log(body);
+    Http.sendHttpRequest({
+      baseUrl: 'https://api.uber.com',
+      url: '/v1/estimates/price',
+      method: 'get',
+      params: {
+        server_token: inputs.apiKey,
+        start_latitude: inputs.startLatitude,
+        start_longitude: inputs.startLongitude,
+        end_latitude: inputs.endLatitude,
+        end_longitude: inputs.endLongitude
+      }
+    }).exec({
+      // OK.
+      success: function(httpResponse) {
+
+        // Parse response body and build up result.
+        var responseBody;
+        try {
+          responseBody = JSON.parse(httpResponse.body);
+
+          if (_.isEmpty(responseBody.prices)) {
+            return exits.noPriceAvail('There is no available price for this loctaion.');
+          }
+
+          if (!responseBody.prices) {
+            return exits.error('Unexpected response from Uber API:\n' + util.inspect(responseBody, false, null));
+          }
+        } catch (e) {
+          return exits.error('Unexpected response from Uber API:\n' + util.inspect(responseBody, false, null) + '\nParse error:\n' + util.inspect(e));
         }
-      });
+
+        responseBody.prices = _.reduce(responseBody.prices, function(memo, priceMetadata) {
+          memo.push({
+            productId: priceMetadata.product_id,
+            currencyCode: priceMetadata.currency_code,
+            displayName: priceMetadata.display_name,
+            estimate: priceMetadata.estimate,
+            lowEstimate: priceMetadata.low_estimate,
+            highEstimate: priceMetadata.high_estimate,
+            surgeMultiplier: priceMetadata.surge_multiplier,
+            duration: priceMetadata.duration,
+            distance: priceMetadata.distance
+          });
+          return memo;
+          console.log(memo.push());
+
+
+        }, []);
+
+
+        return exits.success(responseBody.prices);
+        console.log(memo.push());
+        console.log(memo);
+        console.log(memo.push());
+
+      },
+      // Non-2xx status code returned from server
+      notOk: function(httpResponse) {
+
+        try {
+          var responseBody = JSON.parse(httpResponse.body);
+          console.log(responseBody);
+
+          if (httpResponse.status === 401) {
+            return exits.invalidApiKey('Invalid api key.');
+          }
+          if (httpResponse.status === 422) {
+            return exits.tooFar('Distance between two points exceeds 100 miles.');
+          }
+          if (httpResponse.status === 429 && _.any(responseBody.error.errors, {
+              reason: 'rateLimitExceeded'
+            })) {
+            return exits.rateLimitExceeded();
+          }
+          // Unknown uber error
+          return exits.error(httpResponse);
+        } catch (e) {
+          return exits.error('Unexpected response from Uber API:\n' + util.inspect(responseBody, false, null) + '\nParse error:\n' + util.inspect(e));
+        }
+
+      },
+
+      // An unexpected error occurred.
+      error: function(err) {
+        return exits.error(err);
+      }
+
+
 
     });
+
   }
 
-};*/
-
+};
