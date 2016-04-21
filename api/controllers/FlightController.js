@@ -34,14 +34,12 @@ module.exports = {
 
       var flight_data;
       var https = require('https');
-      trip.year = null;
-      trip.month = null;
-      trip.day = null;
       //appID: 0efb0de0
       //appKey: 4cc49ed437eb48a4729722360e30ac41
 
       //parse trip date
-      var date_array = trip.departureDate.split("/");
+      var date_array = trip.departureDate.split("-");
+      console.log(date_array);
 
       //flight by route, departing on given date
       //curl -v  -X GET "https://api.flightstats.com/flex/schedules/rest/v1/json/from/OMA/to/DFW/departing/2016/04/09?appId=0efb0de0&appKey=4cc49ed437eb48a4729722360e30ac41"
@@ -67,7 +65,7 @@ module.exports = {
 //        console.log('running pick_flight');
         options = {
           host: 'api.flightstats.com',
-          path: '/flex/schedules/rest/v1/json/from/' + trip.origin + '/to/' + trip.destination + '/departing/' + date_array[2] + '/' + date_array[0] + '/' + date_array[1] + '?appId=0efb0de0&appKey=4cc49ed437eb48a4729722360e30ac41',
+          path: '/flex/schedules/rest/v1/json/from/' + trip.origin + '/to/' + trip.destination + '/departing/' + date_array[0] + '/' + date_array[1] + '/' + date_array[2] + '?appId=0efb0de0&appKey=4cc49ed437eb48a4729722360e30ac41',
           method: 'GET'
         };
 
@@ -85,7 +83,7 @@ module.exports = {
         console.log('async is done');
 
         //test API. prints out first flight object
-        //console.log('fData2:',flight_data.scheduledFlights[0]);
+        console.log('fData2:',flight_data.scheduledFlights[0]);
 
         res.view({
           trip: trip,

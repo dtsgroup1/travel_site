@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 module.exports = {
   friendlyName: 'Get price estimate',
   description: 'A price estimate for each product offered.',
@@ -103,6 +104,20 @@ module.exports = {
         } catch (e) {
           return exits.error('Unexpected response from Uber API:\n' + util.inspect(responseBody, false, null) + '\nParse error:\n' + util.inspect(e));
         }
+=======
+/**
+ * RideController
+ *
+ * @description :: Server-side logic for managing rides
+ * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
+ */
+
+
+// curl -H 'Authorization: Token 'kuhOpgaA1JkBbjFyJ7iaweUbCUVYZOrPlMFdMl8H' \'https://api.uber.com/v1/products?latitude=37.7759792&longitude=-122.41823'
+// npm install uber-api
+
+//var Uber = require('node-uber');
+origin/master
 
         responseBody.prices = _.reduce(responseBody.prices, function(memo, priceMetadata) {
           memo.push({
@@ -158,12 +173,3 @@ module.exports = {
       // An unexpected error occurred.
       error: function(err) {
         return exits.error(err);
-      }
-
-
-
-    });
-
-  }
-
-};

@@ -3,6 +3,8 @@
 
 <table class="table table-striped">
 
+
+
   <tr>
     <th>Price</th>
     <th>Hotel City</th>
@@ -22,7 +24,7 @@
       <td><%= hotel.EndDate %></td>
       <td><%= hotel.StarRating %></td>
       <td><input type="hidden" name="price" value="<%= hotel.NeighborhoodLatitude %>"></td>
-      <td><input type="hidden" name="refNum" value="<%= hotel.NeighborhoodLatitude %>"></td>
+      <td><input type="hidden" name="refNum" value="<%= hotel.NeighborhoodLongitude %>"></td>
       <td><input type="hidden" name="owner" value="<%= trip.id %>"></td>
       <td><input class="btn btn-success" type="submit" value="Select"/></td>
     </form>
