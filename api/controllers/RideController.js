@@ -18,10 +18,10 @@ module.exports = {
   },
 
   create: function (req, res, next) {
-    Ride.create(req.params.all(), function rideCreated(err,ride) {
+    Ride.create(req.params.all(), function rideCreated(err, ride) {
       if (err) return next(err);
 
-      console.log('ride:',ride.owner);
+      console.log('ride:', ride.owner);
 
       res.redirect('/trip/show/' + ride.owner);
     });
@@ -34,13 +34,13 @@ module.exports = {
 
       var ride_data;
       var https = require('https');
-      //appID: 0efb0de0
-      //appKey: 4cc49ed437eb48a4729722360e30ac41
 
-      //parse trip date
-
-      //flight by route, departing on given date
-      //curl -v  -X GET "https://api.flightstats.com/flex/schedules/rest/v1/json/from/OMA/to/DFW/departing/2016/04/09?appId=0efb0de0&appKey=4cc49ed437eb48a4729722360e30ac41"
+      //get lat/long from hotel
+      var lat = trip.hotels[trip.hotels.length-1].price;
+      var long = trip.hotels[trip.hotels.length-1].refNum;
+      //calculate a 3-mile trip
+      var endLat = trip.hotels[trip.hotels.length-1].price-.04;
+      var endLong = trip.hotels[trip.hotels.length-1].refNum-.04;
 
       function process_response(webservice_response, trip, callback) {
         console.log('running process_response');
@@ -72,7 +72,7 @@ module.exports = {
 
         options = {
           host: 'api.uber.com',
-          path: '/v1/estimates/price?server_token=kuhOpgaA1JkBbjFyJ7iaweUbCUVYZOrPlMFdMl8H&start_latitude=39.7410194&start_longitude=-104.9835917&end_latitude=39.7414517&end_longitude=-104.9811135',
+          path: '/v1/estimates/price?server_token=kuhOpgaA1JkBbjFyJ7iaweUbCUVYZOrPlMFdMl8H&start_latitude='+lat+'&start_longitude='+long+'&end_latitude='+endLat+'&end_longitude='+endLong,
           method: 'GET'
         };
 
@@ -87,10 +87,7 @@ module.exports = {
       var cycler = [trip];
       async.each(cycler, pick_ride, function (err) {
         if (err) console.log(err);
-        console.log('async is done');
-
-        //test API. prints out first flight object
-        //console.log('fData2:',flight_data.scheduledFlights[0]);
+//        console.log('async is done');
 
         console.log(ride_data.prices[0]);
 

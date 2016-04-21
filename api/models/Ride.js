@@ -23,7 +23,7 @@ module.exports = {
     },
 
     costDist: {
-      type: 'float'
+      type: 'string'
     }
 
   }
