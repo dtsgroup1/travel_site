@@ -38,9 +38,9 @@ module.exports = {
       //get lat/long from hotel
       var lat = trip.hotels[trip.hotels.length-1].price;
       var long = trip.hotels[trip.hotels.length-1].refNum;
-      //calculate a 3-mile trip
-      var endLat = trip.hotels[trip.hotels.length-1].price-.04;
-      var endLong = trip.hotels[trip.hotels.length-1].refNum-.04;
+      //calculate a 2-block trip
+      var endLat = trip.hotels[trip.hotels.length-1].price-.02;
+      var endLong = trip.hotels[trip.hotels.length-1].refNum-.02;
 
       function process_response(webservice_response, trip, callback) {
         console.log('running process_response');

@@ -15,7 +15,7 @@
       <!--e.g. particularFlight.flightNumber-->
       <!--Give each row its own form (POST method)-->
       <tr>
-        <td><input type="text" placeholder="<%= ride.estimate %>" name="costDist"></td>
+        <td><input type="text" placeholder="$<%= ride.low_estimate %>" name="costDist"></td>
         <td><input type="text" placeholder="<%= ride.duration %>" name="capacity"></td>
         <td><input type="hidden" value="<%= ride.low_estimate %>" name="costMin"></td>
         <td><input type="hidden" value="<%= trip.id %>" name="owner"></td>
