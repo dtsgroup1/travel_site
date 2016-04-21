@@ -1,6 +1,6 @@
 <!--Give each row its own form (POST method)-->
 <h1>Yo, choose a ride!</h1>
-<h4><%= trip.id %></h4>
+
 <form action="/ride/create" method="POST">
   <div class="container-fluid">
     <table class="table table-striped">
@@ -12,17 +12,16 @@
         <th></th>
       </tr>
       <!--cycles through each flight object in "scheduledFlights" array-->
-      <% _.each(rides, function(ride) { %>
+      <% _.each(rides.prices, function(ride) { %>
       <!--e.g. particularFlight.flightNumber-->
       <!--Give each row its own form (POST method)-->
       <tr>
-        <td><input type="text" placeholder="<%= ride.estimate %>" name="estimate></td>
+        <td><input type="text" placeholder="<%= ride.estimate %>" name="estimate"></td>
         <td><input type="text" placeholder="<%= ride.duration %>" name="duration"></td>
-        <td><input type="text" placeholder="<%= trip.id %>" name="owner"></td>
+        <td><input type="hidden" value="<%= trip.id %>" name="owner"></td>
         <td><input class="btn btn-success" type="submit" value="Select"/></td>
       </tr>
       <% }); %>
     </table>
   </div>
 </form>
-

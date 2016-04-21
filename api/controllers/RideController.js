@@ -43,7 +43,7 @@ module.exports = {
       //curl -v  -X GET "https://api.flightstats.com/flex/schedules/rest/v1/json/from/OMA/to/DFW/departing/2016/04/09?appId=0efb0de0&appKey=4cc49ed437eb48a4729722360e30ac41"
 
       function process_response(webservice_response, trip, callback) {
-//        console.log('running process_response');
+        console.log('running process_response');
         var webservice_data = "";
         webservice_response.on('error', function (e) {
           console.log(e.message);
@@ -54,7 +54,7 @@ module.exports = {
         });
 
         webservice_response.on('end', function () {
-          flight_data = JSON.parse(webservice_data);
+          ride_data = JSON.parse(webservice_data);
           callback();
         });
       }
@@ -65,7 +65,6 @@ module.exports = {
         // api token/key: kuhOpgaA1JkBbjFyJ7iaweUbCUVYZOrPlMFdMl8H
         // curl -H 'Authorization: kuhOpgaA1JkBbjFyJ7iaweUbCUVYZOrPlMFdMl8H'
 
-
         // &start_latitude=37.623908;
         // &startLongitude=-122.381592;
         // &endLatitude=-37.623908;
@@ -73,7 +72,7 @@ module.exports = {
 
         options = {
           host: 'api.uber.com',
-          path: '/v1/estimates/price?server_token=kuhOpgaA1JkBbjFyJ7iaweUbCUVYZOrPlMFdMl8H&start_latitude=39.914286&start_longitude=116.461745',
+          path: '/v1/estimates/price?server_token=kuhOpgaA1JkBbjFyJ7iaweUbCUVYZOrPlMFdMl8H&start_latitude=39.7410194&start_longitude=-104.9835917&end_latitude=39.7414517&end_longitude=-104.9811135',
           method: 'GET'
         };
 
@@ -93,9 +92,11 @@ module.exports = {
         //test API. prints out first flight object
         //console.log('fData2:',flight_data.scheduledFlights[0]);
 
+        console.log(ride_data.prices[0]);
+
         res.view({
           trip: trip,
-          flight: ride_data
+          rides: ride_data
         });
       });
 

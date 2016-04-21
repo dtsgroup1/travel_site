@@ -1,40 +1,6 @@
 <!--Could put something here using 'headline' in JSON object-->
 <h1>Yo, choose a hotel!</h1>
 
-
-
-<table class="table table-striped">
-
-
-
-  <tr>
-    <th>Price</th>
-    <th>Hotel City</th>
-    <th>Neighborhood</th>
-    <th>Start Date</th>
-    <th>End Date</th>
-    <th>Star Rating</th>
-  </tr>
-  <% _.each(hotels, function(hotel) { %>
-  <!--price and refNum will hold lat/long, respectively-->
-  <tr>
-    <form action="/hotel/create" method="POST">
-      <td><%= hotel.Price %></td>
-      <td><%= hotel.City %></td>
-      <td><%= hotel.Neighborhood %></td>
-      <td><%= hotel.StartDate %></td>
-      <td><%= hotel.EndDate %></td>
-      <td><%= hotel.StarRating %></td>
-      <td><input type="hidden" name="price" value="<%= hotel.NeighborhoodLatitude %>"></td>
-      <td><input type="hidden" name="refNum" value="<%= hotel.NeighborhoodLongitude %>"></td>
-      <td><input type="hidden" name="owner" value="<%= trip.id %>"></td>
-      <td><input class="btn btn-success" type="submit" value="Select"/></td>
-    </form>
-
-  </tr>
-  <% }); %>
-</table>
-
 <div class="container-fluid">
   <table class="table table-striped">
     <tr>
