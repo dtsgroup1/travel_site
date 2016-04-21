@@ -1,10 +1,41 @@
 <form action="/trip/create" method="POST" >
   <h2>Plan a Trip</h2>
+  <h3>Locations are direct flights from local Eppley Airfield.</h3>
 
   <input type="date" placeholder="Departure Date (mm/dd/yyyy)" name="departureDate" ><br />
-  <input type="text" placeholder="Origin Airport Code" name="origin" ><br />
+  <input type="hidden" value=OMA name="origin" >
   <input type="text" placeholder="Destination Airport Code" name="destination" ><br />
   <input type="text" placeholder="Customer ID Number" name="owner" ><br />
-  <h3>Save Trip</h3>
+  <h4>Save Trip</h4>
   <input class="btn btn-success" type="submit" value="Save" />
 </form>
+
+<!--Doesn't need to be a form here; we're just displaying-->
+<h3>Currently available flights:</h3>
+
+<%= ports.response[0].arrival%>
+
+<!--<div class="container-fluid">
+  <table class="table table-striped">
+    <tr>
+      <th>Flight Number</th>
+      <th>Carrier</th>
+      <th>Arrival Time</th>
+      <th></th>
+      <th></th>
+    </tr>
+    <!--cycles through each flight object in "scheduledFlights" array-->
+    <!-- _.each(hotels, function(hotel) {
+      _.each(flight.scheduledFlights, function(particularFlight) {
+      <!--e.g. particularFlight.flightNumber-->
+    <!--Give each row its own form (POST method)
+    <tr><form action="/flight/create" method="POST">
+        <td><input type="text" value="= particularFlight.flightNumber " name="num"></td>
+        <td><input type="text" value="= particularFlight.carrierFsCode " name="carrier"></td>
+        <td><input type="text" value="= particularFlight.arrivalTime " name="arrival"></td>
+        <td><input type="hidden" name="owner" value="= trip.id "></td>
+        <td><input class="btn btn-success" type="submit" value="Select"/></td>
+      </form></tr>
+     });
+  </table>
+</div>-->

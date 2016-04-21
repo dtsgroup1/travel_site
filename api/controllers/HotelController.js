@@ -10,8 +10,10 @@
 module.exports = {
 
   create: function (req, res, next) {
-    Flight.create(req.params.all(), function stockCreated(err, hotel) {
+    Hotel.create(req.params.all(), function stockCreated(err, hotel) {
       if (err) return next(err);
+
+      console.log('deal:',hotel.deal);
 
       res.redirect('/trip/show/' + hotel.owner);
     });
@@ -44,10 +46,10 @@ module.exports = {
         if (err) {
           console.log(err);
         }
-        console.log(response.statusCode);
-        console.log(date);
+        //console.log(response.statusCode);
+        //console.log(date);
         var hotels = JSON.parse(body).Result;
-        console.log(hotels[0]);
+        //console.log(hotels[0]);
 
         res.view({
           trip: trip,

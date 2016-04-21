@@ -18,7 +18,7 @@ module.exports = {
   },
 
   create: function (req, res, next) {
-    Flight.create(req.params.all(), function stockCreated(err, flight) {
+    Flight.create(req.params.all(), function flightCreated(err, flight) {
       if (err) return next(err);
 
       console.log('carrier:',flight.carrier);
@@ -76,14 +76,14 @@ module.exports = {
         webservice_request.end();
       }
 
-      //cycler array is used to tell async to cycle through array of 1 value, that is the current trip
-      var cycler = [trip]
+      //cycler array is used to tell async to cycle through array of 1 value; the current trip, that is
+      var cycler = [trip];
       async.each(cycler, pick_flight, function (err) {
         if (err) console.log(err);
         console.log('async is done');
 
         //test API. prints out first flight object
-        console.log('fData2:',flight_data.scheduledFlights[0]);
+        //console.log('fData2:',flight_data.scheduledFlights[0]);
 
         res.view({
           trip: trip,

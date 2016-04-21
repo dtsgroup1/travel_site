@@ -38,7 +38,6 @@ module.exports = {
     });
   },
 
-
   edit: function(req, res, next) {
     Customer.findOne(req.param('id'), function foundCustomer(err, customer) {
       if (err) return next(err);
@@ -65,8 +64,5 @@ module.exports = {
       res.redirect('/customer/');
     });
   }
-
-
-
 
 };

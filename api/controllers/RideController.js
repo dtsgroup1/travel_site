@@ -1,175 +1,105 @@
-<<<<<<< HEAD
-module.exports = {
-  friendlyName: 'Get price estimate',
-  description: 'A price estimate for each product offered.',
-  extendedDescription: '',
-  inputs: {
-    apiKey: {
-      example: 'kuhOpgaA1JkBbjFyJ7iaweUbCUVYZOrPlMFdMl8H',
-      description: 'The private Uber API key for this application.',
-      required: true,
-      whereToGet: {
-        url: 'https://developer.uber.com/apps/',
-        description: 'Copy and paste an API key, or create one if you haven\'t already.',
-        extendedDescription: ''
-      }
-    },
-    startLatitude: {
-      example: 37.623908,
-      description: 'Latitude component of start location.',
-      required: true
-    },
-    startLongitude: {
-      example: -122.381592,
-      description: 'Longitude component of start location.',
-      required: true
-    },
-    endLatitude: {
-      example: 37.623908,
-      description: 'Latitude component of end location.',
-      required: true
-    },
-    endLongitude: {
-      example: -122.401213,
-      description: 'Longitude component of end location.',
-      required: true
-    }
-  },
-  defaultExit: 'success',
-  exits: {
-    error: {
-      description: 'Unexpected error occurred.'
-    },
-    rateLimitExceeded: {
-      description: 'The rate limit has been exceeded.'
-    },
-    tooFar: {
-      description: 'Distance between two points exceeds 100 miles.'
-    },
-    invalidApiKey: {
-      description: 'Invalid api key.'
-    },
-    noPriceAvail: {
-      description: 'There is no available price for this location.'
-    },
-    success: {
-      description: 'Returns an estimated price range for each product offered at a given location.',
-      example: [{
-        productId: '08f17084-23fd-4103-aa3e-9b660223934b',
-        currencyCode: 'USD',
-        displayName: 'UberBLACK',
-        estimate: '$23-29',
-        lowEstimate: 23,
-        highEstimate: 29,
-        surgeMultiplier: 1,
-        duration: 640,
-        distance: 5.34
-      }]
-    }
-  },
-  show: function(inputs, exits) {
-
-    var util = require('util');
-    var _ = require('lodash');
-    var Http = require('machinepack-http');
-
-
-    Http.sendHttpRequest({
-      baseUrl: 'https://api.uber.com',
-      url: '/v1/estimates/price',
-      method: 'get',
-      params: {
-        server_token: inputs.apiKey,
-        start_latitude: inputs.startLatitude,
-        start_longitude: inputs.startLongitude,
-        end_latitude: inputs.endLatitude,
-        end_longitude: inputs.endLongitude
-      }
-    }).exec({
-      // OK.
-      success: function(httpResponse) {
-
-        // Parse response body and build up result.
-        var responseBody;
-        try {
-          responseBody = JSON.parse(httpResponse.body);
-
-          if (_.isEmpty(responseBody.prices)) {
-            return exits.noPriceAvail('There is no available price for this loctaion.');
-          }
-
-          if (!responseBody.prices) {
-            return exits.error('Unexpected response from Uber API:\n' + util.inspect(responseBody, false, null));
-          }
-        } catch (e) {
-          return exits.error('Unexpected response from Uber API:\n' + util.inspect(responseBody, false, null) + '\nParse error:\n' + util.inspect(e));
-        }
-=======
 /**
- * RideController
+ * FlightController
  *
- * @description :: Server-side logic for managing rides
+ * @description :: Server-side logic for managing flights
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 
+module.exports = {
 
-// curl -H 'Authorization: Token 'kuhOpgaA1JkBbjFyJ7iaweUbCUVYZOrPlMFdMl8H' \'https://api.uber.com/v1/products?latitude=37.7759792&longitude=-122.41823'
-// npm install uber-api
+  'new': function (req, res) {
+    Trip.findOne(req.param('owner'), function foundTrip(err, trip) {
+      if (err) return next(err);
+      if (!trip) return next();
+      res.view({
+        trip: trip
+      });
+    });
+  },
 
-//var Uber = require('node-uber');
-origin/master
+  create: function (req, res, next) {
+    Ride.create(req.params.all(), function rideCreated(err,ride) {
+      if (err) return next(err);
 
-        responseBody.prices = _.reduce(responseBody.prices, function(memo, priceMetadata) {
-          memo.push({
-            productId: priceMetadata.product_id,
-            currencyCode: priceMetadata.currency_code,
-            displayName: priceMetadata.display_name,
-            estimate: priceMetadata.estimate,
-            lowEstimate: priceMetadata.low_estimate,
-            highEstimate: priceMetadata.high_estimate,
-            surgeMultiplier: priceMetadata.surge_multiplier,
-            duration: priceMetadata.duration,
-            distance: priceMetadata.distance
-          });
-          return memo;
-          console.log(memo.push());
+      console.log('ride:',ride.owner);
+
+      res.redirect('/trip/show/' + ride.owner);
+    });
+  },
+
+  'search': function (req, res, next) {
+    Trip.findOne(req.param('id')).populateAll().exec(function (err, trip) {
+      if (err) return next(err);
+      if (!trip) return next();
+
+      var ride_data;
+      var https = require('https');
+      //appID: 0efb0de0
+      //appKey: 4cc49ed437eb48a4729722360e30ac41
+
+      //parse trip date
+
+      //flight by route, departing on given date
+      //curl -v  -X GET "https://api.flightstats.com/flex/schedules/rest/v1/json/from/OMA/to/DFW/departing/2016/04/09?appId=0efb0de0&appKey=4cc49ed437eb48a4729722360e30ac41"
+
+      function process_response(webservice_response, trip, callback) {
+//        console.log('running process_response');
+        var webservice_data = "";
+        webservice_response.on('error', function (e) {
+          console.log(e.message);
+          callback('Error: ' + e.message);
+        });
+        webservice_response.on('data', function (chunk) {
+          webservice_data += chunk;
+        });
+
+        webservice_response.on('end', function () {
+          flight_data = JSON.parse(webservice_data);
+          callback();
+        });
+      }
+
+      function pick_ride(trip, callback) {
+//        console.log('ride cost est');
+
+        // api token/key: kuhOpgaA1JkBbjFyJ7iaweUbCUVYZOrPlMFdMl8H
+        // curl -H 'Authorization: kuhOpgaA1JkBbjFyJ7iaweUbCUVYZOrPlMFdMl8H'
 
 
-        }, []);
+        // &start_latitude=37.623908;
+        // &startLongitude=-122.381592;
+        // &endLatitude=-37.623908;
+        // &startLongitude=-122.401213,
 
+        options = {
+          host: 'api.uber.com',
+          path: '/v1/estimates/price?server_token=kuhOpgaA1JkBbjFyJ7iaweUbCUVYZOrPlMFdMl8H&start_latitude=39.914286&start_longitude=116.461745',
+          method: 'GET'
+        };
 
-        return exits.success(responseBody.prices);
-        console.log(memo.push());
-        console.log(memo);
-        console.log(memo.push());
+        // This is asynchronous - won't guarantee we get the response before we use it
+        var webservice_request = https.request(options, function (webservice_response) {
+          process_response(webservice_response, trip, callback)
+        });
+        webservice_request.end();
+      }
 
-      },
-      // Non-2xx status code returned from server
-      notOk: function(httpResponse) {
+      //cycler array is used to tell async to cycle through array of 1 value; the current trip, that is
+      var cycler = [trip];
+      async.each(cycler, pick_ride, function (err) {
+        if (err) console.log(err);
+        console.log('async is done');
 
-        try {
-          var responseBody = JSON.parse(httpResponse.body);
-          console.log(responseBody);
+        //test API. prints out first flight object
+        //console.log('fData2:',flight_data.scheduledFlights[0]);
 
-          if (httpResponse.status === 401) {
-            return exits.invalidApiKey('Invalid api key.');
-          }
-          if (httpResponse.status === 422) {
-            return exits.tooFar('Distance between two points exceeds 100 miles.');
-          }
-          if (httpResponse.status === 429 && _.any(responseBody.error.errors, {
-              reason: 'rateLimitExceeded'
-            })) {
-            return exits.rateLimitExceeded();
-          }
-          // Unknown uber error
-          return exits.error(httpResponse);
-        } catch (e) {
-          return exits.error('Unexpected response from Uber API:\n' + util.inspect(responseBody, false, null) + '\nParse error:\n' + util.inspect(e));
-        }
+        res.view({
+          trip: trip,
+          flight: ride_data
+        });
+      });
 
-      },
+    });
+  }
 
-      // An unexpected error occurred.
-      error: function(err) {
-        return exits.error(err);
+};
