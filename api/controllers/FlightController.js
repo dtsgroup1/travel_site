@@ -85,9 +85,13 @@ module.exports = {
         //test API. prints out first flight object
         //console.log('fData2:',flight_data.scheduledFlights[0]);
 
+
+
         res.view({
           trip: trip,
           flight: flight_data
+
+
         });
       });
 

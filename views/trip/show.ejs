@@ -1,3 +1,7 @@
+<center> <h4> <a href="/customer/new"> New Customer </a>        |     <a href="../../"> Homepage </a>      |      <a href="/trip/new"> Create New Trip </a> </h4> </center>
+<div style='float: right;'><img src="http://i1077.photobucket.com/albums/w466/brentmac94/Sails%20Travel%20Guide%20Dark_zpsscq9ggxg.png" border="0" alt=" photo Logo_zps5iyjczue.png" width="200" height="150" alt="Logos"></div>
+
+
 <br>
 <h2>Please select each part of your trip in order.</h2>
 <br><br>
@@ -5,11 +9,14 @@
 <td><a class="btn btn-success" href="/flight/search/<%= trip.id %>">Flight</a></td>
 <h3>..then a:</h3>
 <td><a class="btn btn-success" href="/hotel/show/<%= trip.id %>">Hotel</a></td>
-<h3>..and a:</h3>
+<h3>..and to get around town a...:</h3>
 <td><a class="btn btn-success" href="/ride/search/<%= trip.id %>">Ride</a></td>
-<h3>..and of course some:</h3>
-<td><a class="btn btn-success" href="/fun/search/<%= trip.id %>">Entertainment</a></td>
+
 
 <br><br><br>
 <h4>..or be boring and:</h4>
 <a class="btn btn-info" href="/customer/show/<%= trip.owner.id %>">Return to Customer</a>
+
+
+
+

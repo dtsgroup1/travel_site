@@ -223,13 +223,14 @@ textarea {
 
 body {
   margin: 0;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Lucida Grande", Lucida Grande, sans-serif;
   font-size: 14px;
   line-height: 20px;
   color: #0b7ba4;
   background-color: rgb(241, 251, 221);
   padding-right: 30px;
   padding-left: 30px;
+  font-weight: 100;
 }
 
 a {
@@ -742,7 +743,7 @@ h5,
 h6 {
   margin: 10px 0;
   font-family: inherit;
-  font-weight: bold;
+  font-weight: lighter;
   line-height: 20px;
   color: inherit;
   text-rendering: optimizelegibility;

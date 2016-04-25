@@ -1,3 +1,7 @@
+<center> <h4> <a href="/customer/new"> New Customer </a>        |     <a href="../../"> Homepage </a>      |      <a href="/trip/new"> Create New Trip </a> </h4> </center>
+<div style='float: right;'><img src="http://i1077.photobucket.com/albums/w466/brentmac94/Sails%20Travel%20Guide%20Dark_zpsscq9ggxg.png" border="0" alt=" photo Logo_zps5iyjczue.png" width="200" height="150" alt="Logos"></div>
+
+
 <h1>Customer</h1>
 
 <h1><%= customer.name %></h1>
@@ -34,7 +38,7 @@
       <a class="btn btn-danger" href="/trip/destroy/<%= trip.id %>">Delete</a>
     </td>
     <td>
-      <a class="btn btn-info" href="/trip/show/<%= trip.id %>">show trip</a>
+      <a class="btn btn-info" href="/trip/show/<%= trip.id %>">Show Trip</a>
     </td>
   </tr>
   <% }); %>
@@ -47,3 +51,6 @@
 </form>
 
 <a class="btn btn-info" href="/customer/">All Customers</a>
+
+
+
