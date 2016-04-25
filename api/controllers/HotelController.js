@@ -19,6 +19,8 @@ module.exports = {
     });
   },
 
+  //
+
   show: function (req, res, next) {
     Trip.findOne(req.param('id')).populateAll().exec(function (err, trip) {
       var Hotwire = require('hotwire');
